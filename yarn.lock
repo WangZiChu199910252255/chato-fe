@@ -1522,6 +1522,11 @@
   dependencies:
     vue-demi "*"
 
+"@xmldom/xmldom@^0.8.6":
+  version "0.8.10"
+  resolved "https://registry.npmmirror.com/@xmldom/xmldom/-/xmldom-0.8.10.tgz#a1337ca426aa61cef9fe15b5b28e340a72f6fa99"
+  integrity sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==
+
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.npmmirror.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz"
@@ -2445,6 +2450,13 @@ cors@^2.8.5:
   dependencies:
     object-assign "^4"
     vary "^1"
+
+cos-js-sdk-v5@^1.4.21:
+  version "1.4.21"
+  resolved "https://registry.npmmirror.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.4.21.tgz#c3c5ccb879b32839f9717c208601273f9b06ab9d"
+  integrity sha512-6cR53IZF2o17uaPr8XJSMa+Q73P9pgDFD5IYGcIfJn06JJaK6hGX43nv5DJ17uQYmwQBIqNeZOF97I7ClrsNdA==
+  dependencies:
+    "@xmldom/xmldom" "^0.8.6"
 
 crc-32@~1.2.0:
   version "1.2.2"
@@ -7659,6 +7671,11 @@ util-deprecate@^1.0.1, util-deprecate@^1.0.2:
   resolved "https://registry.npmmirror.com/util-deprecate/-/util-deprecate-1.0.2.tgz"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
+uuid@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.npmmirror.com/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
+  integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
+
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
   resolved "https://registry.npmmirror.com/validate-npm-package-license/-/validate-npm-package-license-3.0.4.tgz"
@@ -7774,10 +7791,10 @@ vm2@^3.9.17:
     acorn "^8.7.0"
     acorn-walk "^8.2.0"
 
-vue-cropper@1.0.9:
-  version "1.0.9"
-  resolved "https://registry.npmmirror.com/vue-cropper/-/vue-cropper-1.0.9.tgz#de402c57cadc221e9a2063399ff35bb04220ef22"
-  integrity sha512-JhQwxmjqmQohzI7sAp5O/Rfdxuw5HOEYkKjnp/De7iCi6c8Mv6M3N9HpMt9xgWCFchX3/DfXBv2axCZOCg3G8Q==
+vue-cropper@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmmirror.com/vue-cropper/-/vue-cropper-1.1.1.tgz#e1d2729f7139182a893e8badcb8f33257aa2a40f"
+  integrity sha512-WsqKMpaBf9Osi1LQlE/5AKdD0nHWOy1asLXocaG8NomOWO07jiZi968+/PbMmnD0QbPJOumDQaGuGa13qys85A==
 
 vue-demi@*, vue-demi@>=0.14.0, vue-demi@>=0.14.5:
   version "0.14.5"
