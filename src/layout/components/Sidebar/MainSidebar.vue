@@ -1,7 +1,7 @@
 <template>
   <aside class="w-auto shrink-0 box-border h-full">
     <div class="flex h-full overflow-hidden">
-      <div class="flex flex-col items-center bg-[#1C2235] w-48 lg:w-40">
+      <!-- <div class="flex flex-col items-center bg-[#1C2235] w-48 lg:w-40">
         <img
           src="@/assets/img/logo-header-white.png"
           class="w-[120px] cursor-pointer mx-auto my-8"
@@ -26,7 +26,7 @@
           </li>
         </ul>
         <SidebarBottom />
-      </div>
+      </div> -->
       <Transition
         enter-active-class="transition-opacity duration-200"
         leave-active-class="transition-opacity duration-200"
@@ -56,7 +56,6 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import ChatSidebar from './ChatSidebar.vue'
-import SidebarBottom from './SidebarBottom.vue'
 
 const { t } = useI18n()
 

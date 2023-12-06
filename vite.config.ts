@@ -124,7 +124,7 @@ export default defineConfig(({ command, mode }) => {
         }
       }
     },
-    base: '/',
+    base: 'c/bot/resource',
     build: {
       sourcemap: isProd,
       target: 'modules',

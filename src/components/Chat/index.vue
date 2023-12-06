@@ -15,7 +15,7 @@
       <span
         class="flex w-fit cursor-pointer rounded-full absolute z-[999] top-0 right-0 h-14 items-center text-base pr-5"
       >
-        <svg-icon
+        <!-- <svg-icon
           @click="copyText(link)"
           name="share"
           svg-class="text-[#303133] mt-1 mr-1 w-6 h-6"
@@ -25,7 +25,7 @@
           @click="chatMoreVisible = true"
           name="more"
           svg-class="text-[#303133] mt-1 ml-2 w-6 h-6"
-        />
+        /> -->
       </span>
     </div>
     <div
@@ -126,7 +126,7 @@
         @onTerminateRetry="onTerminateRetry"
         class="chat-center"
       />
-      <ChatFooter
+      <!-- <ChatFooter
         v-if="detail.brand_show"
         :name="detail.brand_name"
         :logo="detail.brand_logo"
@@ -135,7 +135,7 @@
           !isCustomerBrand && 'cursor-pointer'
         ]"
         @click="onFooterBrandLink"
-      />
+      /> -->
     </div>
   </div>
   <ChatMessageMore
@@ -255,7 +255,6 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { BlindWatermark, Watermark } from 'watermark-js-plus'
 import xss from 'xss'
-import ChatFooter from './ChatFooter.vue'
 import ChatMessageMore from './ChatMessageMore.vue'
 import ChatMoreNavigator from './ChatMoreNavigator.vue'
 

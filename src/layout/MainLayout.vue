@@ -42,7 +42,7 @@ import { useChatStore } from '@/stores/chat'
 import { useDomainStore } from '@/stores/domain'
 import { useSpaceStore } from '@/stores/space'
 import { nextTick, ref } from 'vue'
-import { RouterView, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import Sidebar from './components/Sidebar/MainSidebar.vue'
 import Skeleton from './components/Skeleton/index.vue'
 

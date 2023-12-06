@@ -1,17 +1,11 @@
 <template>
-  <el-config-provider :locale="clocale">
-    <div class="flex flex-col flex-1 h-full relative">
-      <router-view />
-      <img
-        v-if="xnVisible"
-        data-sensors-click
-        id="Chato_mobile_xiaona_chat_click"
-        src="@/assets/img/xiaona.png"
-        class="absolute w-11 h-11 object-cover right-[2px] bottom-20 rounded-full shadow-lg xn-flashing"
-        @click="onContactXN"
-      />
-    </div>
-  </el-config-provider>
+  <UseScreenSafeArea top right bottom left>
+    <el-config-provider :locale="clocale">
+      <div class="flex flex-col flex-1 h-full relative">
+        <router-view />
+      </div>
+    </el-config-provider>
+  </UseScreenSafeArea>
 </template>
 
 <script setup lang="ts">
@@ -23,35 +17,13 @@ import { useLocales } from '@/stores/locales'
 import { ElConfigProvider } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useBasicLayout } from './composables/useBasicLayout'
-import { XIAONAQIWEI } from './constant/common'
-import { RoutesMap } from './router'
 
 // 设置不同环境的 Favicon
 useFavicon()
 useBaiduPromotion()
 useByteDancePromotion()
-const route = useRoute()
-const { isMobile } = useBasicLayout()
 const { locale } = storeToRefs(useLocales())
 const clocale = computed(() => Elementlocales[locale.value])
-
-const xnVisible = computed(() => {
-  return (
-    isMobile.value &&
-    ![
-      RoutesMap.chat.c,
-      RoutesMap.chat.release,
-      RoutesMap.home.homeChat,
-      RoutesMap.tranning.botChat
-    ].includes(route.name as string)
-  )
-})
-
-const onContactXN = () => {
-  window.open(XIAONAQIWEI, '_blank')
-}
 </script>
 
 <style lang="scss" scoped>

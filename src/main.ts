@@ -5,7 +5,6 @@ import 'wow.js/css/libs/animate.css'
 //
 import useSensors from '@/composables/useSensors'
 import useSentry from '@/composables/useSentry'
-import { useBase } from '@/stores/base'
 import elementIcon from '@/utils/elementIcon'
 import { globalComponents } from '@/utils/globalComponents'
 import { copyPaste } from '@/utils/help'
@@ -29,14 +28,6 @@ app.use(i18n)
 app.use(asyncRegisterGlobalComponents, globalComponents)
 app.use(elementIcon)
 
-const base = useBase()
-const initAB = async () => {
-  try {
-    await base.getABTestConfig()
-  } catch (e) {}
-}
-initAB()
-
 useSensors(app)
 
 app.config.globalProperties.$copyText = (text: string, successMessage?: string) =>
@@ -44,12 +35,6 @@ app.config.globalProperties.$copyText = (text: string, successMessage?: string) 
 app.mount('#app')
 
 useSentry(app, router)
-
-// const url = window.location.pathname
-// if (!url.startsWith('/sample_chat')) {
-//   const seoDiv = document.getElementById('seo')
-//   seoDiv.style.display = 'none'
-// }
 
 // 删除语音缓存，运行一段时候后删除
 localStorage.removeItem('localAudioUrl')

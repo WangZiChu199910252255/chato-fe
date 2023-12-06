@@ -1,11 +1,6 @@
 <template>
   <div class="overflow-y-auto h-full">
-    <Topbar
-      v-if="requiredTopbar"
-      title=""
-      class="h-0 md:!h-16"
-      :existMenuMore="route.path.indexOf('c') === -1"
-    />
+    <Topbar v-if="requiredTopbar" title="" class="h-0 md:!h-16" :existMenuMore="true" />
     <SquareHeader />
     <ContentLayout
       class="!overflow-hidden !h-auto"
@@ -105,7 +100,6 @@ import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import QrCodeRobot from './components/QrCodeRobot.vue'
-import SquareHeader from './components/SquareHeader.vue'
 
 const props = withDefaults(
   defineProps<{
