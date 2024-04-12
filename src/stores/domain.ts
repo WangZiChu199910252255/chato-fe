@@ -19,7 +19,7 @@ export const useDomainStore = defineStore('domain', () => {
   const initDomainList = async (route?: RouteLocationNormalizedLoaded) => {
     try {
       let domain: IDomainInfo
-      const res = await getMyOrgs() // 获取domain_info信息
+      const res = await getMyOrgs()
       const org = res.data?.data?.[0] || {}
       baseStore.updateOrgInfo(org)
 

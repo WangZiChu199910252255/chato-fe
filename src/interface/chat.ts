@@ -13,7 +13,8 @@ export interface ChatToBotRes {
   displayType: string
   id: number
   content: string
-  ref_source_len: number
+  ref_source_len?: number
+  ref_source: string
   evaluation: EMessageEvalution | null
   question: string
   answer: string
@@ -61,7 +62,7 @@ export interface HistoryMessages {
 
 export interface ChatHistoryParams {
   page: number
-  page_size: number
+  size: number
   org_id?: number
   domain_slug?: string
   source?: ChatHistoryParamsSource

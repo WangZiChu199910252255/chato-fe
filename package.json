@@ -14,7 +14,8 @@
     "type-check": "vue-tsc --noEmit",
     "build-type-check": "vue-tsc --noEmit && vite build",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "stylelint": "stylelint 'src/**/*.{css,scss,less,vue,html}' --fix --config stylelint.config.js"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

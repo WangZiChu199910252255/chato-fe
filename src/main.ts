@@ -4,6 +4,7 @@ import 'prismjs/themes/prism.css'
 import 'viewerjs/dist/viewer.css'
 import 'wow.js/css/libs/animate.css'
 //
+import { deleteCommonGraph, getCommonGraph, postCommonGraph } from '@/api/graph'
 import useSensors from '@/composables/useSensors'
 import useSentry from '@/composables/useSentry'
 import elementIcon from '@/utils/elementIcon'
@@ -35,15 +36,12 @@ useSensors(app)
 
 app.config.globalProperties.$copyText = (text: string, successMessage?: string) =>
   copyPaste(text, successMessage)
+app.config.globalProperties.getCommonGraph = getCommonGraph
+app.config.globalProperties.postCommonGraph = postCommonGraph
+app.config.globalProperties.deleteCommonGraph = deleteCommonGraph
 app.mount('#app')
 
 useSentry(app, router)
-
-// const url = window.location.pathname
-// if (!url.startsWith('/sample_chat')) {
-//   const seoDiv = document.getElementById('seo')
-//   seoDiv.style.display = 'none'
-// }
 
 // 删除语音缓存，运行一段时候后删除
 localStorage.removeItem('localAudioUrl')

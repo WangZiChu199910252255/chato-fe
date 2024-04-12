@@ -25,16 +25,6 @@
       >
         <el-button @click="handleTriggerMate">{{ $t('批量操作') }}</el-button>
         <el-button
-          v-if="batchRemove && EAllRole.superman === userInfo.role"
-          :disabled="!multipleSelection.length"
-          @click="onDocToQA"
-          link
-          class="ml-4 text-[#303133]"
-        >
-          <el-icon class="mr-1"><Notification /></el-icon>
-          {{ $t('生成训练问答') }}
-        </el-button>
-        <el-button
           :disabled="!multipleSelection.length"
           v-if="batchRemove"
           @click="handleBatchRemove"
@@ -60,8 +50,6 @@
         v-model:pagination="pagination"
         @remove-doc="onRemoveDoc"
         @edit-preview-doc="onEditPreviewDoc"
-        @generateQA="onGenerateQA"
-        @generateQARouter="onGenerateQARouter"
         @refresh="initDocList"
       />
     </div>
@@ -76,7 +64,6 @@
       @reloadList="initDocList"
       @closeDialogVisble="onCloseDialog"
     />
-    <DocToQAModal v-model:visible="docToQAModalVisible" :ids="multipleIds" />
   </div>
   <Modal
     v-model:visible="visible"
@@ -99,7 +86,8 @@
 </template>
 <script lang="ts" setup>
 import { updateDomain } from '@/api/domain'
-import { deleteRetryFileMate, getFilesByDomainId, postGenerateDocAPI } from '@/api/file'
+import { deleteRetryFileMate } from '@/api/file'
+import { getCommonGraph } from '@/api/graph'
 import IconReward from '@/assets/img/Icon-Reward.png'
 import EnterDoc from '@/components/EnterAnswer/EnterDoc.vue'
 import SearchInput from '@/components/Input/SearchInput.vue'
@@ -115,11 +103,8 @@ import {
   EKnowledgeBusinessType,
   LearningStatesPerformanceType
 } from '@/enum/knowledge'
-import { ESpaceRightsType } from '@/enum/space'
-import { EAllRole } from '@/enum/user'
 import type { IPage } from '@/interface/common'
 import type { GetFilesByDomainIdType, IDocumentForm, IDocumentList } from '@/interface/knowledge'
-import { RoutesMap } from '@/router'
 import { useBase } from '@/stores/base'
 import { useDomainStore } from '@/stores/domain'
 import * as url from '@/utils/url'
@@ -131,7 +116,6 @@ import { computed, onUnmounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import DocLearnTable from './DocLearnTable.vue'
-import DocToQAModal from './DocToQAModal.vue'
 
 const { t } = useI18n()
 const { ImagePath: emptydocImg } = useImagePath('empty-doc')
@@ -178,9 +162,6 @@ const pagination = ref<IPage>({
 
 const currentEdit = ref<IDocumentForm>({})
 const dialogVisible = ref(false)
-
-const multipleIds = computed(() => multipleSelection.value.map((item) => item.id))
-
 const onEditPreviewDoc = (value: any, type: EDocumentOperateType) => {
   if (type === EDocumentOperateType.retry) {
     deteleOrRetryFile(DeleteRetryFileMateStatusType.pending, [value.id])
@@ -220,11 +201,27 @@ const initDocList = async () => {
     if (DocSelectStatus.value !== LearningStatesPerformanceType.all) {
       params.status = DocSelectStatus.value
     }
+
+    let filter = `business_type=="${params.business_type}" and status != "${LearningStatesPerformanceType.deleted}"`
+
+    if (params.keyword) {
+      filter += ` and title % "%${params.keyword}%"`
+    }
+
+    if (params.status) {
+      filter += ` and status=="${params.status}"`
+    }
+
     const {
-      data: { data, meta }
-    } = await getFilesByDomainId(domainId.value, params)
+      data: { data, pagination: meta }
+    } = await getCommonGraph<IDocumentList[]>(`chato_domains/${domainId.value}/files`, {
+      filter: filter,
+      sort: '-id',
+      page: params.page,
+      size: pagination.value.page_size
+    })
     tableData.value = data
-    pagination.value.page_count = meta.pagination.page_count
+    pagination.value.page_count = meta.page_count
     if (tableData.value.length > 0 && domainInfo.value.task_progress[1] === 0) {
       domainInfo.value.task_progress[1] = 40
       await updateDomain(domainInfo.value.id, {
@@ -284,11 +281,6 @@ const deteleOrRetryFile = async (type: DeleteRetryFileMateStatusType, ids: numbe
   }
 }
 
-const docToQAModalVisible = ref(false)
-const onDocToQA = () => {
-  docToQAModalVisible.value = true
-}
-
 const handleBatchRemove = () => {
   if (!multipleSelection.value.length) return
   ElMessageBox.confirm(t('您确认确删除这些文件吗？'), t('温馨提示'), {
@@ -308,23 +300,6 @@ const handleBatchRemove = () => {
       })
     })
     .catch(() => {})
-}
-
-const onGenerateQA = async (id: number) => {
-  const res = await postGenerateDocAPI(id)
-  loading.value = false
-  if (!res.data.data) {
-    return checkRightsTypeNeedUpgrade(ESpaceRightsType.default)
-  }
-  ElNotification.success(t('问答生成中'))
-  initDocList()
-}
-
-const onGenerateQARouter = (id: number) => {
-  router.push({
-    name: RoutesMap.tranning.knowledgeGenerate,
-    query: { docId: id }
-  })
 }
 
 debouncedWatch(searchInput, () => initDocList(), { debounce: 300 })

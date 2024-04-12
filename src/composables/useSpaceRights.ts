@@ -1,7 +1,7 @@
-import { getGroupListAPI, serachAccountListAPI } from '@/api/release'
+import { getCommonGraph } from '@/api/graph'
+import { getGroupListAPI } from '@/api/release'
 import { checkSpaceRightsTypeCanShow } from '@/api/space'
 import { ESpaceCommercialType, ESpaceRightsType } from '@/enum/space'
-import { RoutesMap } from '@/router'
 import { useBase } from '@/stores/base'
 import { useDomainStore } from '@/stores/domain'
 import { useSpaceStore } from '@/stores/space'
@@ -59,7 +59,11 @@ export default function useSpaceRights() {
         break
       }
       case ESpaceRightsType.weixinAccount: {
-        const res = await serachAccountListAPI(userInfo.value?.org?.id)
+        const res = await getCommonGraph<any>('hosting_account', {
+          filter: `org_id=="${userInfo.value?.org?.id}"`,
+          size: 500
+        })
+        // serachAccountListAPI(userInfo.value?.org?.id)
         isUpperLimited = res.data.data.length >= trusteeAccountNum.value
         break
       }
@@ -79,26 +83,26 @@ export default function useSpaceRights() {
   ]
 
   const onOpenUpgradeRightsModal = (type: ESpaceRightsType, toVip: boolean) => {
-    if (
-      route.name !== RoutesMap.vip.center &&
-      currentRights.value &&
-      [ESpaceCommercialType.free, ESpaceCommercialType.freeFirstExp].includes(
-        currentRights.value.type
-      ) &&
-      [
-        ESpaceRightsType.default,
-        ESpaceRightsType.brand,
-        ESpaceRightsType.bot,
-        ESpaceRightsType.createAccount,
-        ESpaceRightsType.space,
-        ESpaceRightsType.usage
-      ].includes(type) &&
-      toVip
-    ) {
-      router.push({ name: RoutesMap.vip.center })
-    } else {
-      upgradeRightsVisible.value = true
-    }
+    // if (
+    //   route.name !== RoutesMap.vip.center &&
+    //   currentRights.value &&
+    //   [ESpaceCommercialType.free, ESpaceCommercialType.freeFirstExp].includes(
+    //     currentRights.value.type
+    //   ) &&
+    //   [
+    //     ESpaceRightsType.default,
+    //     ESpaceRightsType.brand,
+    //     ESpaceRightsType.bot,
+    //     ESpaceRightsType.createAccount,
+    //     ESpaceRightsType.space,
+    //     ESpaceRightsType.usage
+    //   ].includes(type) &&
+    //   toVip
+    // ) {
+    //   router.push({ name: RoutesMap.vip.center })
+    // } else {
+    upgradeRightsVisible.value = true
+    // }
   }
 
   const checkRightsTypeNeedUpgrade = async (type: ESpaceRightsType, toVip = true) => {

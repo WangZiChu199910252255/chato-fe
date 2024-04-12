@@ -57,20 +57,7 @@
         <LoadingMore :visible="loading" />
       </div>
       <div class="relative my-3 mt-0 w-full overflow-hidden pt-16">
-        <div
-          class="absolute top-0 left-0 z-[999] bg-[#f2f3f5bd] w-full text-[#303133] overflow-hidden text-xs leading-5 py-3 px-5"
-          style="border: 1px solid 303133"
-        >
-          <p class="float-left w-1/2 truncate overflow-hidden whitespace-nowrap">
-            咨询页：{{ `${extractData(currentChatUser.source_id).title || $t('无')}` }}
-          </p>
-          <p class="float-left w-1/2 truncate overflow-hidden whitespace-nowrap">
-            渠道：{{ `${currentChatUser.source || $t('无')}` }}
-          </p>
-          <p class="float-left w-1/2 truncate overflow-hidden whitespace-nowrap">
-            着陆页：{{ `${extractData(currentChatUser.source_id).url || $t('无')}` }}
-          </p>
-        </div>
+        <ReportChatSource :uid="activeChatUser" />
         <ReportUserChatCRM :uid="activeChatUser" @send="onSend" />
       </div>
     </template>
@@ -88,14 +75,14 @@ import type { IUserChat } from '@/interface/question'
 import { useAuthStore } from '@/stores/auth'
 import { useChatUserStore } from '@/stores/chatUser'
 import { useDomainStore } from '@/stores/domain'
-import { generateRandomRGB, isPhoneNum } from '@/utils/help'
-import { extractData } from '@/utils/reg'
+import { generateRandomRGB } from '@/utils/help'
 import { useWebSocket } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { storeToRefs } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 import { computed, reactive, ref, toRaw, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import ReportChatSource from './ReportChatSource.vue'
 import ReportUserChatCRM from './ReportUserChatCRM.vue'
 
 const route = useRoute()
@@ -110,7 +97,8 @@ const pagination = reactive<IPage>({
   page: 1,
   total: 0,
   page_count: 0,
-  page_size: 10
+  page_size: 10,
+  size: 10
 })
 
 const hasMoreChatUsers = computed(
@@ -184,11 +172,7 @@ const refreshChatUsersOrder = (chatMsgItem) => {
 }
 
 const rednerUserName = (str: string) => {
-  if (isPhoneNum(str)) {
-    return str
-  } else {
-    return `未知用户-${str.slice(-6)}`
-  }
+  return str
 }
 
 const onSend = (params: Record<string, any>) => {
@@ -218,6 +202,12 @@ const initChatUsers = async () => {
       page: pagination.page,
       page_size: pagination.page_size
     })
+    // getCommonGraph<any>('chato_domains', {
+    //   filter: `domain_id=="${domainId.value}"`,
+    //   page: pagination.page,
+    //   size: pagination.page_size,
+    //   sort: '-id'
+    // })
     if (!activeChatUser.value && data.length) {
       activeChatUser.value = data[0].sender_uid
     }

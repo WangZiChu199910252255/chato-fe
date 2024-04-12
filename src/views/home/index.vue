@@ -54,14 +54,14 @@
         />
       </el-select>
       <div class="button-container">
-        <!-- <el-button
+        <el-button
           link
           :class="['!text-[#606266] !font-normal', 'mr-1', isMobile ? 'w-[22px]' : '']"
           @click="toggleButton(locale === ELangKey.en ? ELangKey.zh_cn : ELangKey.en)"
         >
           {{ checkbutton[locale] }}
           <el-icon class="el-icon--right"><ArrowDown /></el-icon>
-        </el-button> -->
+        </el-button>
         <el-button
           :data-script="authToken ? 'Chato-enter' : 'Chato-login'"
           class="w-auto h-9 rounded-lg !text-sm hover:!scale-105"
@@ -226,6 +226,7 @@ import { kPrivacyLinkUrl, kUserAgreementLinkUrl } from '@/constant/terms'
 import { ELangKey } from '@/enum/locales'
 import { ESpaceRightsType } from '@/enum/space'
 import { EAllRole } from '@/enum/user'
+import { checkbutton } from '@/locales'
 import { RoutesMap } from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import { useBase } from '@/stores/base'
@@ -450,7 +451,7 @@ const onRegisterContactUS = () => {
 
 onMounted(() => {
   const wow = new WOW({
-    offset: 100, // 定义浏览器视口底部与隐藏框顶部之间的距离。当用户滚动并到达此距离时，隐藏的框会显示出来。
+    offset: 50, // 定义浏览器视口底部与隐藏框顶部之间的距离。当用户滚动并到达此距离时，隐藏的框会显示出来。
     mobile: true, // 在移动设备上打开/关闭 WOW.js。
     live: true, // 在页面上同时检查新的 WOW 元素。
     scrollContainer: '#homeContainer'
@@ -485,9 +486,9 @@ watch(
 <style lang="scss" scoped>
 .home-contact-btn {
   position: fixed;
-  box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.16);
   border: 1px solid #e4e7ed;
-  background: #ffffff;
+  background: #fff;
   border-radius: 32px;
   font-size: 12px;
   font-weight: 500;
@@ -497,6 +498,7 @@ watch(
 
 .fixed-btn {
   @apply flex items-center justify-center;
+
   flex-direction: column;
   border-bottom: 1px solid #e4e7ed;
   color: #303133;

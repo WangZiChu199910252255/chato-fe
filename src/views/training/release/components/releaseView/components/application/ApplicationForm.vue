@@ -52,8 +52,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { applicationFormSave, getIndustry } from '@/api/release'
+import { applicationFormSave } from '@/api/release'
 import ReleaseFormLogo from '@/assets/img/release-form-logo.png'
+import { INDUSTRYLIST } from '@/constant/common'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElLoading, ElNotification } from 'element-plus'
 import { reactive, ref } from 'vue'
@@ -71,7 +72,7 @@ const emit = defineEmits(['handleUpdateOrgInfo'])
 const applicationFormRef = ref<FormInstance>()
 const platformList = ['pc', 'copy', 'chat', 'api', 'public-wx', 'enterprise-wx', 'other']
 
-const industryList = ref<string[]>([])
+const industryList = ref<string[]>(INDUSTRYLIST)
 const applicationForm = reactive({
   name: '',
   industry: '',
@@ -117,22 +118,23 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   })
 }
 
-const init = async () => {
-  try {
-    const res = await getIndustry()
-    res.data.code === 200 ? (industryList.value = res.data.data) : ''
-  } catch (e) {
-    console.log(e)
-  }
-}
+// const init = async () => {
+//   try {
+//     const res = await getIndustry()
+//     res.data.code === 200 ? (industryList.value = res.data.data) : ''
+//   } catch (e) {
+//     console.log(e)
+//   }
+// }
 
-init()
+// init()
 </script>
 <style lang="scss" scoped>
 .application-form-container {
   width: 100%;
   .a-f-header {
     @apply flex items-center justify-start;
+
     flex-wrap: wrap;
     border-radius: 8px;
     background: #e5ecf7;

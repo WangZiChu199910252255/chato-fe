@@ -1,7 +1,6 @@
 import type { EBrandCreateEditStatusType, EBrandDomainStatusType } from '@/enum/domain'
 import type {
   EAfficialAccountStatusType,
-  EQrCodeHookType,
   ESitePopupType,
   ESiteShowLocationType
 } from '@/enum/release'
@@ -40,6 +39,18 @@ export interface ICeateAfficialAccountRes {
 export interface ICreateDeleteEditSitesData {
   id: number
   source: string
+  status: string
+}
+
+export interface ISaveSitesParams {
+  id: number
+  source: string
+  popup: number
+  popup_frequency: number
+  show_bubble: number
+  show_location: ESiteShowLocationType
+  suspend_style: string
+  suspend_style_color: string
   status: string
 }
 
@@ -90,29 +101,31 @@ export interface ICreatePublicStatus {
 }
 
 export interface IAccountList {
-  avatar: string
-  corp_name: string
-  groups: string[]
-  name: string
-  people_cnt: number
-  status: string
-  wx_user_id: string
+  additions: { avatar: string; company_name: string; name: string }
+  created: string
+  default_domain_slug: string
+  deleted: number | null
+  hosting_id: string
+  id: number
+  org_id: number
+  platform: number
+  status: number
+  wx_user_id?: number
+  name?: string
 }
 
 export interface IGroupList {
-  group_name: string
-  is_system_robot: boolean
+  created: string
   id: number
-  room_id: string
-  robot_qr_code_data: string
+  deleted: string | null
+  hosting_id: string
   group_qr_code_data: string
-  name: string
-  status: string
-  people_cnt: number
-  token: string
-  corp_name: string
-  new_user_msg: string
-  response_type: number
+  title: string
+  conversation_id: string
+  conversation_type: number
+  status: number
+  domain_slug: string
+  additions: { nickname: string; wellcome: string; response_type: number }
 }
 
 export interface ISingelGroupList {
@@ -223,8 +236,6 @@ export interface IJoinGroupChatAPI {
 }
 
 export interface ICreateAccountCode {
-  hook_type: string
-  hook_id: string
   client_id: number
   qr_code_key: string
   code: string
@@ -245,20 +256,14 @@ export interface ICreateGroupRes {
 }
 
 export interface ICreateAccountRes {
-  clientId: number
-  hookId: string
-  qrCode: string
-  qrCodeKey: string
-  qrCodeUrl: string
-  title?: string
-  wx_user_id?: string
+  client_id: number
+  qr_code: string
+  qr_code_key: string
 }
 
 export interface ICreateAccountParams {
-  hook_type: EQrCodeHookType
   qr_code_key: string
-  is_restart: boolean
-  wx_user_id: string
+  default_domain_slug: string
 }
 
 export interface ICreateAccountEmpowerRes {
@@ -311,7 +316,8 @@ export interface ISettingBroadcastAttachmentItem {
 
 export interface ISettingBroadcastType {
   send_schedule_id: number
-  domain: number | string
+  domain?: number | string
+  domain_id?: number | string
   receiver_id: string
   status: number
   channel: string

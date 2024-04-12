@@ -23,7 +23,7 @@ export enum EWeixinConfigType {
 export const enum EChannelType {
   FEISHU = 'feishu',
   WECHAT_KF = 'wechat_kf',
-  WECHAT_MP = 'wechat_mp',
+  WECHAT_MP = 'weixin',
   DOUYIN = 'douyin',
   DINGDING = 'dingding'
 }
@@ -65,6 +65,11 @@ export enum EAccountStatus {
   online = '在线',
   offline = '离线'
 }
+
+export const AccountStatusNew = {
+  1: '在线',
+  2: '离线'
+} as const
 
 export enum ESiteShowLocationType {
   full = 'full',

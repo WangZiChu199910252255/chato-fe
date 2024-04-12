@@ -12,7 +12,7 @@ import { useDomainStore } from '@/stores/domain'
 import { useSpaceStore } from '@/stores/space'
 import { copyPaste } from '@/utils/help'
 import { getSpecifiedDateSinceNowDay } from '@/utils/timeRange'
-import { ChatDotRound, Document, FullScreen, Tools, View } from '@element-plus/icons-vue'
+import { Document, FullScreen, Tools, View } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
 import {
   computed,
@@ -38,7 +38,6 @@ const OfficialAccont = defineAsyncComponent(
   () => import('./components/officialAccount/OfficialAccont.vue')
 )
 const EmPower = defineAsyncComponent(() => import('./components/tiktok/EmPower.vue'))
-const CreateChat = defineAsyncComponent(() => import('./components/weixinChat/CreateChat.vue'))
 const DrawerChat = defineAsyncComponent(() => import('./components/weixinChat/DrawerChat.vue'))
 const WeixinService = defineAsyncComponent(
   () => import('./components/weixinService/WeixinService.vue')
@@ -81,7 +80,6 @@ const rightsMaskVisible = computed(
 
 const features = reactive({
   showDrawerChatVisible: false, // 查看群聊
-  createGroupChatVisible: false, // 创建群聊
   configAccountVisible: false, // 配置公众号
   showCopyLinkVisbile: false, // 网页-复制链接
   siteListVisible: false, // 站点列表
@@ -101,7 +99,6 @@ const features = reactive({
 
 const {
   showDrawerChatVisible,
-  createGroupChatVisible,
   configAccountVisible,
   feiShuVisible,
   weixinService,
@@ -112,14 +109,6 @@ const {
 } = toRefs(features)
 
 const { checkRightsTypeNeedUpgrade } = useSpaceRights()
-
-const createWeixinChat = async () => {
-  const needUpgrade = await checkRightsTypeNeedUpgrade(ESpaceRightsType.groupChat)
-  if (needUpgrade) {
-    return
-  }
-  createGroupChatVisible.value = true
-}
 
 const createWeixinAccount = async () => {
   const needUpgrade = await checkRightsTypeNeedUpgrade(ESpaceRightsType.weixinAccount)
@@ -160,7 +149,6 @@ const handleRestartAccount = (row: ICreateAccountRes) => {
 // 创建账号
 const handleCreateAccount = () => {
   accountCreateStatus.value = EAccountSettingStatus.creating
-  createGroupChatVisible.value = true
   accountQrCode.value = null
 }
 const releaseList = [
@@ -180,12 +168,6 @@ const releaseList = [
         label: t('查看账号'),
         scriptId: 'Chato-account-view',
         click: () => commonVisible(drawerAccountVisible)
-      },
-      {
-        icon: ChatDotRound,
-        label: t('创建聊天'),
-        scriptId: 'Chato-group-create',
-        click: createWeixinChat
       },
       {
         icon: View,
@@ -364,18 +346,7 @@ onMounted(() => {
       :userRoute="userRoute"
       :robotNickname="domainInfo.name"
       :endpoint="chatReleaseURL.chatAPI"
-    />
-    <CreateChat
-      v-model:value="createGroupChatVisible"
-      :chatAPI="chatReleaseURL.chatAPI"
-      :userRoute="userRoute"
-      :domainId="domainInfo.id"
-      :robotNickname="domainInfo.name"
-      :orgId="userInfo.org.id"
-      :mobileNumber="userInfo.mobile"
-      :domainSlug="domainInfo.slug"
-      :welcome="domainInfo.welcome"
-      @handleCreateAccount="createAccountVisible = true"
+      :slugId="botSlug"
     />
     <CreateFeishu :slug="domainInfo.slug" v-model:value="feiShuVisible" />
     <WeixinService v-model:value="weixinService" :domainSlug="domainInfo.slug" />

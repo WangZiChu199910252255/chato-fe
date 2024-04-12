@@ -1,4 +1,4 @@
-import type { ICreateAfficialAccountData, ICeateAfficialAccountRes } from '@/interface/release'
+import type { ICeateAfficialAccountRes, ICreateAfficialAccountData } from '@/interface/release'
 import request from '@/utils/request'
 
 // 获取微信分享信息
@@ -15,13 +15,5 @@ export function createAfficialAccount(slug_id: string, data: ICreateAfficialAcco
     method: 'post',
     url: `/mp/manage/${slug_id}/save`,
     data
-  })
-}
-
-// 查询当前绑定的微信公众号
-export function serachAfficialAccount(slug_id: string) {
-  return request<ICeateAfficialAccountRes[]>({
-    method: 'get',
-    url: `/mp/manage/${slug_id}`
   })
 }

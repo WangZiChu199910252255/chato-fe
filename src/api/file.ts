@@ -1,25 +1,5 @@
-import type {
-  GetFilesByDomainIdType,
-  IDocmentToQAParams,
-  IDocumentList,
-  IKnowledgeShared,
-  IQuestionConvertQAForm,
-  IWXPublic,
-  RetryFileMateType
-} from '@/interface/knowledge'
+import type { IKnowledgeShared, IWXPublic, RetryFileMateType } from '@/interface/knowledge'
 import request from '@/utils/request'
-
-const PAGE_SIZE = 10
-
-export function getFilesByDomainId(domainId: string | number, params: GetFilesByDomainIdType) {
-  return request<IDocumentList[]>({
-    url: `/chato/api/domains/${domainId}/files`,
-    params: {
-      page_size: PAGE_SIZE,
-      ...params
-    }
-  })
-}
 
 // 删除文件
 export function deleteFile(fileId) {
@@ -111,15 +91,6 @@ export function getKnowledgeSharedList(data: any) {
   })
 }
 
-// 更新知识库关联状态
-export function updateKnowledgeSharedStatus(data: any) {
-  return request({
-    method: 'post',
-    url: `/api/knowledge/share`,
-    data
-  })
-}
-
 //获取公众号list
 export function getWXPublicList(data: { name: string }) {
   return request<IWXPublic[]>({
@@ -146,52 +117,6 @@ export function getWXPublicLearnCount(domain_id: number) {
   }>({
     method: 'post',
     url: `/chato/api/document_management/${domain_id}/get_wx_public_article_spider_process`
-  })
-}
-
-// 生成问答
-export function postGenerateDocAPI(fileId: number) {
-  return request<boolean>({
-    method: 'post',
-    url: `/chato/api/document_management/${fileId}/qa`
-  })
-}
-
-// 生成问答-问答列表
-export function getGenerateDocListAPI(
-  fileId: string,
-  params: { page: number; size: number; is_handle: boolean }
-) {
-  return request({
-    url: `/chato/api/document_management/${fileId}/qa`,
-    params
-  })
-}
-
-// 生成问答-转存/废弃
-export function postGenerateQAUnloadingAPI(fileId: string, data: IQuestionConvertQAForm) {
-  return request({
-    method: 'patch',
-    url: `/chato/api/document_management/${fileId}/qa`,
-    data
-  })
-}
-
-// // 生成问答-存储
-export function patchGenerateQASaveAPI(QaId: number, data: { question: string; answer: string }) {
-  return request({
-    method: 'patch',
-    url: `/chato/api/document_management/qa/${QaId}`,
-    data
-  })
-}
-
-// 文档转 QA
-export function docToQA(domain_id: number | string, data: IDocmentToQAParams) {
-  return request({
-    method: 'post',
-    url: `chato/api/document_management/${domain_id}/file_convert_to_qa`,
-    data
   })
 }
 
