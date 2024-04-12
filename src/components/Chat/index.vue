@@ -164,6 +164,9 @@
   />
   <ChatPayModal :domainInfo="detail" v-model:value="payModalVisible" />
   <AudioPlayer />
+  <Modal v-model:visible="kimiVisible" @submit="() => {}" width="484px">
+    <el-button @click="openKimi">跳转kimi</el-button>
+  </Modal>
 </template>
 
 <script lang="ts" setup>
@@ -330,6 +333,7 @@ const watermark = ref<Watermark>()
 const blindWatermark = ref<BlindWatermark>()
 const sensorsQuestionId = computed(() => history.value?.[history.value.length - 1]?.questionId)
 const chatMoreVisible = ref(false)
+const kimiVisible = ref(false)
 const payModalVisible = ref(Boolean(route.query.pay || false))
 
 const redirectCode = computed(() => (route.query.code as string) || '')
@@ -472,6 +476,10 @@ const onHiddenChatMore = () => {
   currentMoreActionPosition.value = {
     top: -9999
   }
+}
+
+const openKimi = () => {
+  window.open('https://www.baidu.com', '_blank')
 }
 
 const onChatHistoryScroll = () => {
@@ -952,6 +960,13 @@ const generateMessage = async (data, key) => {
       domainSlug: botSlug.value,
       token: chatToken.value
     }))
+  if (
+    route.path.includes('test') &&
+    data.status === EWsMessageStatus.done &&
+    history.value.length > 4
+  ) {
+    kimiVisible.value = true
+  }
 }
 
 // 特殊处理：继续

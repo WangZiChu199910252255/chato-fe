@@ -29,6 +29,7 @@ export const RoutesMap = {
   chat: {
     chatName: 'chat',
     release: 'chatRelease',
+    releaseTest: 'releaseTest',
     c: 'chatC',
     homeC: 'chatHomeC',
     resource: 'resource',
@@ -183,6 +184,14 @@ const asyncRoutes = [
         name: RoutesMap.chat.release,
         path: ':botSlug',
         component: () => import('@/views/chat/shareChat.vue')
+      },
+      {
+        name: RoutesMap.chat.releaseTest,
+        path: 'test/:botSlug',
+        component: () => import('@/views/chat/shareChat.vue'),
+        meta: {
+          // title: '对话'
+        }
       }
     ]
   }

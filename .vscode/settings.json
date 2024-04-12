@@ -23,5 +23,5 @@
     "editor.defaultFormatter": "DotJoshJohnson.xml"
   },
   "i18n-ally.localesPaths": ["locales", "src/locales", "src/locales/lang"],
-  "cSpell.words": ["youzan"]
+  "cSpell.words": ["kimi", "youzan"]
 }
